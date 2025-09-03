@@ -40,19 +40,21 @@ img {
     height: auto;
 }
 .fun-btn {
-    padding: 15px 30px;
+    padding: 20px 40px; /* PLUS GROS */
     background: linear-gradient(135deg, #ff6b6b, #ffa726);
     color: white;
     border: none;
     border-radius: 50px;
-    font-size: 18px;
+    font-size: 22px; /* PLUS GROS */
     font-weight: bold;
     cursor: pointer;
-    margin-top: 20px;
+    margin: 30px auto; /* CENTRÉ */
+    display: block; /* POUVOIR ÊTRE CENTRÉ */
+    width: fit-content; /* S'ADAPTE AU TEXTE */
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     transition: transform 0.3s ease;
 }
 
 .fun-btn:hover {
-    transform: scale(1.05);
-    }
+    transform: scale(1.1); /* EFFET AU SURVOL */
+}
