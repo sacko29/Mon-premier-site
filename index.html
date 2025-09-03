@@ -21,11 +21,29 @@
         <p>J'apprends à coder et à déployer des sites directement depuis mon téléphone ! C'est puissant.</p>
     </section>
 
+    <!-- SECTION CONTACT AVEC TOUT LE NOUVEAU -->
     <section id="contact">
         <h2>Contacte-moi !</h2>
         <p>Tu peux me trouver sur GitHub : <strong>sacko29</strong></p>
         <br>
+        
+        <!-- BOUTON MODE FIESTA -->
         <button class="fun-btn" onclick="changeBackground()">🎨 Mode Fiesta !</button>
+        
+        <!-- LECTEUR MUSIQUE -->
+        <div class="music-player">
+            <button onclick="toggleMusic()">🎵 Play/Pause</button>
+            <audio id="bgMusic" loop>
+                <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5be5f202a2.mp3?filename=epic-hip-hop-15718.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+        
+        <!-- SLIDER GALERIE -->
+        <div class="gallery">
+            <img src="https://i.ibb.co/tMCyxDPr/STK-20250328-WA0013.webp" alt="Image 1">
+            <img src="https://i.ibb.co/7QZ5K1V/denji-chainsaw-man.gif" alt="Image 2" style="display:none;">
+        </div>
+        <button onclick="changeImage()">🔄 Change Image</button>
     </section>
 
     <script src="script.js"></script>
