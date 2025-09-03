@@ -91,3 +91,49 @@ img {
 .music-player {
     margin: 20px 0;
 }
+/* 🎨 STYLE SUPPLÉMENTAIRE POUR LES BOUTONS */
+.music-player button, 
+.gallery button, 
+.fun-btn {
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px auto;
+    display: block;
+    width: fit-content;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.music-player button:hover, 
+.gallery button:hover, 
+.fun-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, #ffa726 0%, #ff6b6b 100%);
+}
+
+/* 🎵 Style spécifique pour le bouton musique */
+.music-player button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.music-player button:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+/* 🖼️ Style spécifique pour le bouton slider */
+.gallery button {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.gallery button:hover {
+    background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);
+    }
