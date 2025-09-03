@@ -2,9 +2,27 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
+    background: #000;
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 10px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 5px);
+    background-size: 550px 550px, 350px 350px;
+    background-position: 0 0, 40px 60px;
+    animation: stars 100s linear infinite;
     color: #333;
     line-height: 1.6;
+}
+
+@keyframes stars {
+    from { background-position: 0 0, 40px 60px; }
+    to { background-position: -550px 0, 40px -350px; }
+}
+
+/* POLICE STYLE NARUTO */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+h1, h2 {
+    font-family: 'Press Start 2P', cursive;
+    margin-top: 0;
 }
 
 header {
@@ -25,10 +43,6 @@ section {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-h1, h2 {
-    margin-top: 0;
-}
-
 .image-container {
     text-align: center;
     margin: 20px 0;
@@ -38,6 +52,20 @@ img {
     border-radius: 10px;
     max-width: 100%;
     height: auto;
+}
+
+/* EFFET GLITCH SUR L'IMAGE */
+.image-container:hover img {
+    animation: glitch 0.5s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-5px, 5px); }
+    40% { transform: translate(-5px, -5px); }
+    60% { transform: translate(5px, 5px); }
+    80% { transform: translate(5px, -5px); }
+    100% { transform: translate(0); }
 }
 
 .fun-btn {
@@ -58,4 +86,8 @@ img {
 
 .fun-btn:hover {
     transform: scale(1.1);
+}
+
+.music-player {
+    margin: 20px 0;
 }
