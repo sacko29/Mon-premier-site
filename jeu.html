@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kibutsuji vs Pilliers</title>
+    <link rel="stylesheet" href="jeu.css">
+</head>
+<body>
+    <h1>🩸 KIBUTSUJI VS PILLIERS 🗡️</h1>
+    
+    <div id="game">
+        <!-- KIBUTSUJI -->
+        <div class="character" id="kibutsuji">
+            <img src="https://lien-image-kibutsuji.jpg" alt="Kibutsuji">
+            <div class="health-bar">
+                <div class="health" style="width: 100%;"></div>
+            </div>
+        </div>
+
+        <!-- PILLIERS -->
+        <div class="character" id="pillier">
+            <img src="https://lien-image-pillier.jpg" alt="Pillier">
+            <div class="health-bar">
+                <div class="health" style="width: 100%;"></div>
+            </div>
+        </div>
+
+        <!-- BOUTONS -->
+        <button onclick="attack()">⚔️ Attaquer</button>
+        <button onclick="special()">🔥 Technique Spéciale</button>
+    </div>
+
+    <script src="jeu.js"></script>
+</body>
+</html>
