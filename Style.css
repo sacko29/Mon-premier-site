@@ -39,3 +39,20 @@ img {
     max-width: 100%;
     height: auto;
 }
+.fun-btn {
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #ff6b6b, #ffa726);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.fun-btn:hover {
+    transform: scale(1.05);
+    }
