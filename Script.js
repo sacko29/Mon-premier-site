@@ -8,3 +8,13 @@ if(contactTitle) {
         this.style.color = this.style.color === 'red' ? '' : 'red';
     });
 }
+function changeBackground() {
+    // Génère une couleur aléatoire
+    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+    
+    // Change la couleur de fond du body
+    document.body.style.background = randomColor;
+    
+    // Petit son de succès (optionnel)
+    console.log("Couleur changée : " + randomColor);
+}
