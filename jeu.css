@@ -67,3 +67,46 @@ button:hover {
     transform: scale(1.1);
     box-shadow: 0 0 20px rgba(255, 69, 0, 0.7);
 }
+/* 🎯 BOUTONS NAVIGATION PRO */
+.main-nav {
+    text-align: center;
+    margin: 20px auto;
+    padding: 15px;
+    background: linear-gradient(135deg, #8B0000 0%, #450000 100%);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4);
+    max-width: 300px;
+    border: 2px solid #FF4500;
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 12px 25px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-family: 'Segoe UI', sans-serif;
+    display: inline-block;
+    background: linear-gradient(135deg, #FF4500 0%, #8B0000 100%);
+    box-shadow: 0 3px 10px rgba(255, 69, 0, 0.3);
+}
+
+.main-nav a:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 69, 0, 0.6);
+    background: linear-gradient(135deg, #FF6B6B 0%, #FF4500 100%);
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+    .main-nav {
+        padding: 10px;
+    }
+    
+    .main-nav a {
+        padding: 10px 20px;
+        margin: 5px;
+    }
+}
