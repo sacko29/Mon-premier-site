@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demon Slayer: L'Infini Train</title>
+    <title>Tic Tac Toe - Demon Slayer</title>
     <style>
-        /* STYLES GÉNÉRAUX */
         * {
             margin: 0;
             padding: 0;
@@ -14,109 +13,156 @@
         }
         
         body {
-            background: #0a0a1a;
+            background: #1a1a2e;
             color: white;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            justify-content: center;
             padding: 20px;
-            background-image: url('https://i.ibb.co/KpZvZYRC/IMG-20250904-WA0076.jpg');
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(to bottom, #0c1445, #1a1a2e);
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
         }
         
         h1 {
-            color: #FF4500;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px #8B0000;
-            text-align: center;
+            color: #ff9e1b;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 158, 27, 0.7);
+            background: linear-gradient(to right, #ff9e1b, #ff3434);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
-        /* CONTAINER DE JEU */
-        #game-container {
-            position: relative;
-            width: 90%;
-            max-width: 800px;
-            height: 70vh;
-            border: 3px solid #8B0000;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(139, 0, 0, 0.7);
-            margin-bottom: 20px;
-        }
-        
-        /* INTERFACE UTILISATEUR */
-        #game-ui {
-            width: 100%;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.7);
-            border-bottom: 2px solid #8B0000;
-        }
-        
-        #score, #health {
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-shadow: 0 0 5px #FF4500;
-        }
-        
-        #game-canvas {
-            width: 100%;
-            height: calc(100% - 50px);
-            background: linear-gradient(to bottom, #1a1a2a, #0a0a1a);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* ÉCRANS DE DÉMARAGE ET GAME OVER */
-        #start-screen, #game-over {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            text-align: center;
-        }
-        
-        #game-over {
-            display: none;
-        }
-        
-        #start-screen h2, #game-over h2 {
-            color: #FF4500;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px #8B0000;
-        }
-        
-        #start-screen p, #game-over p {
+        h2 {
+            color: #8be9fd;
             margin-bottom: 30px;
-            max-width: 80%;
-            font-size: 1.1rem;
+            font-weight: 300;
         }
         
-        /* BOUTONS */
-        #controls {
+        /* Écran de sélection d'équipe */
+        #team-selection {
+            background: rgba(30, 30, 46, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #ff79c6;
+        }
+        
+        .teams {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
             justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        
+        .team-btn {
+            background: rgba(40, 42, 54, 0.8);
+            border: 2px solid;
+            border-radius: 10px;
+            padding: 20px;
+            width: 150px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .team-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        #team-muzan {
+            border-color: #ff5555;
+        }
+        
+        #team-muzan:hover {
+            background: rgba(255, 85, 85, 0.2);
+        }
+        
+        #team-rengoku {
+            border-color: #ffb86c;
+        }
+        
+        #team-rengoku:hover {
+            background: rgba(255, 184, 108, 0.2);
+        }
+        
+        .team-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        /* Plateau de jeu */
+        #game {
+            display: none;
+            background: rgba(30, 30, 46, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #50fa7b;
+            margin-bottom: 20px;
+        }
+        
+        #current-team {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #f1fa8c;
+        }
+        
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 0 auto;
+            max-width: 350px;
+        }
+        
+        .cell {
+            aspect-ratio: 1;
+            background: rgba(40, 42, 54, 0.9);
+            border: 2px solid #6272a4;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .cell:hover {
+            background: rgba(56, 58, 89, 0.9);
+            transform: scale(1.05);
+        }
+        
+        .cell.x {
+            color: #ff5555;
+            text-shadow: 0 0 10px rgba(255, 85, 85, 0.7);
+        }
+        
+        .cell.o {
+            color: #ffb86c;
+            text-shadow: 0 0 10px rgba(255, 184, 108, 0.7);
+        }
+        
+        /* Contrôles du jeu */
+        #game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
         }
         
         .control-btn {
             padding: 12px 25px;
-            background: linear-gradient(135deg, #8B0000, #FF4500);
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
             color: white;
             border: none;
             border-radius: 50px;
@@ -124,380 +170,270 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
         }
         
         .control-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(255, 69, 0, 0.6);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
         }
         
-        #start-btn, #restart-btn {
-            padding: 15px 40px;
+        #home-btn {
+            background: linear-gradient(135deg, #6272a4, #44475a);
+        }
+        
+        /* Message de fin de jeu */
+        #game-result {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
             font-size: 1.2rem;
-            background: linear-gradient(135deg, #8B0000, #FF4500);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.6);
+            font-weight: bold;
         }
         
-        #start-btn:hover, #restart-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 7px 20px rgba(255, 69, 0, 0.8);
+        .win {
+            background: rgba(80, 250, 123, 0.2);
+            color: #50fa7b;
+            border: 1px solid #50fa7b;
         }
         
-        /* ÉLÉMENTS DE JEU */
-        .character {
-            position: absolute;
-            transition: transform 0.2s;
+        .draw {
+            background: rgba(139, 233, 253, 0.2);
+            color: #8be9fd;
+            border: 1px solid #8be9fd;
         }
         
-        #muzan {
-            width: 60px;
-            height: 80px;
-            background: url('https://i.ibb.co/vvmzRHfh/20250904-163530.jpg');
-            background-size: cover;
-            z-index: 10;
-        }
-        
-        .enemy {
-            position: absolute;
-            width: 50px;
-            height: 70px;
-            background: url('https://i.ibb.co/k2RYnRNL/20250904-163538.jpg');
-            background-size: cover;
-        }
-        
-        .platform {
-            position: absolute;
-            background: linear-gradient(to right, #8B0000, #450000);
-            border: 2px solid #FF4500;
-            border-radius: 5px;
-        }
-        
-        .blood-effect {
-            position: absolute;
-            background: rgba(139, 0, 0, 0.7);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            #game-container {
-                width: 95%;
-                height: 60vh;
-            }
-            
+        /* Responsive */
+        @media (max-width: 600px) {
             h1 {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
             
-            .control-btn {
-                padding: 10px 20px;
-                font-size: 14px;
+            .teams {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .team-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .board {
+                max-width: 300px;
+            }
+            
+            .cell {
+                font-size: 40px;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Démon Slayer: L'Infini Train</h1>
-    
-    <div id="game-container">
-        <div id="game-ui">
-            <div id="score">Score: 0</div>
-            <div id="health">Vie: 100%</div>
+    <div class="container">
+        <h1>Demon Slayer Tic Tac Toe</h1>
+        <h2>Choisis ton camp et bats-toi avec honneur!</h2>
+        
+        <!-- Sélection d'équipe -->
+        <div id="team-selection">
+            <h3>Choisis ton équipe</h3>
+            <div class="teams">
+                <div class="team-btn" id="team-muzan">
+                    <div class="team-icon">👹</div>
+                    <div>Team Muzan</div>
+                </div>
+                <div class="team-btn" id="team-rengoku">
+                    <div class="team-icon">🔥</div>
+                    <div>Team Rengoku</div>
+                </div>
+            </div>
         </div>
-        <div id="game-canvas">
-            <div id="start-screen">
-                <h2>Muzan Jackson contre les Pilliers</h2>
-                <p>Évitez les Pilliers et collectez des points en dansant sur le Train de l'Infini!</p>
-                <button id="start-btn">Commencer à danser</button>
+        
+        <!-- Jeu -->
+        <div id="game">
+            <div id="current-team">Tour de: Team Muzan (X)</div>
+            <div class="board" id="board">
+                <div class="cell" data-cell-index="0"></div>
+                <div class="cell" data-cell-index="1"></div>
+                <div class="cell" data-cell-index="2"></div>
+                <div class="cell" data-cell-index="3"></div>
+                <div class="cell" data-cell-index="4"></div>
+                <div class="cell" data-cell-index="5"></div>
+                <div class="cell" data-cell-index="6"></div>
+                <div class="cell" data-cell-index="7"></div>
+                <div class="cell" data-cell-index="8"></div>
             </div>
             
-            <div id="game-over">
-                <h2>Game Over</h2>
-                <p>Votre score: <span id="final-score">0</span></p>
-                <button id="restart-btn">Rejouer</button>
+            <div id="game-result"></div>
+            
+            <div id="game-controls">
+                <button class="control-btn" id="restart-btn">Rejouer</button>
+                <button class="control-btn" id="home-btn">Retour à l'accueil</button>
             </div>
         </div>
-    </div>
-    
-    <div id="controls">
-        <button class="control-btn" id="left-btn">← Gauche</button>
-        <button class="control-btn" id="right-btn">Droite →</button>
-        <button class="control-btn" id="jump-btn">Sauter ↑</button>
-        <button class="control-btn" id="attack-btn">Attaquer ✨</button>
     </div>
 
     <script>
-        // Variables du jeu
-        let gameActive = false;
-        let score = 0;
-        let health = 100;
-        let muzan = null;
-        let platforms = [];
-        let enemies = [];
-        let gameInterval;
-        
         // Éléments DOM
-        const gameCanvas = document.getElementById('game-canvas');
-        const startScreen = document.getElementById('start-screen');
-        const gameOverScreen = document.getElementById('game-over');
-        const startBtn = document.getElementById('start-btn');
+        const teamSelection = document.getElementById('team-selection');
+        const gameContainer = document.getElementById('game');
+        const currentTeamDisplay = document.getElementById('current-team');
+        const gameResult = document.getElementById('game-result');
+        const cells = document.querySelectorAll('.cell');
         const restartBtn = document.getElementById('restart-btn');
-        const scoreDisplay = document.getElementById('score');
-        const healthDisplay = document.getElementById('health');
-        const finalScoreDisplay = document.getElementById('final-score');
+        const homeBtn = document.getElementById('home-btn');
+        const teamMuzanBtn = document.getElementById('team-muzan');
+        const teamRengokuBtn = document.getElementById('team-rengoku');
         
-        const leftBtn = document.getElementById('left-btn');
-        const rightBtn = document.getElementById('right-btn');
-        const jumpBtn = document.getElementById('jump-btn');
-        const attackBtn = document.getElementById('attack-btn');
+        // Variables du jeu
+        let currentPlayer = 'X';
+        let playerTeam = '';
+        let gameBoard = ['', '', '', '', '', '', '', '', ''];
+        let gameActive = false;
         
-        // Initialisation du jeu
-        function initGame() {
-            // Créer Muzan
-            muzan = document.createElement('div');
-            muzan.id = 'muzan';
-            muzan.style.bottom = '100px';
-            muzan.style.left = '50px';
-            gameCanvas.appendChild(muzan);
-            
-            // Créer des plateformes
-            createPlatform(0, 50, 300, 20);
-            createPlatform(350, 100, 250, 20);
-            createPlatform(150, 180, 200, 20);
-            createPlatform(400, 250, 300, 20);
-            
-            // Démarrer le jeu
+        // Combinaisons gagnantes
+        const winningConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Lignes
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colonnes
+            [0, 4, 8], [2, 4, 6]             // Diagonales
+        ];
+        
+        // Choisir une équipe
+        teamMuzanBtn.addEventListener('click', () => {
+            selectTeam('muzan');
+        });
+        
+        teamRengokuBtn.addEventListener('click', () => {
+            selectTeam('rengoku');
+        });
+        
+        function selectTeam(team) {
+            playerTeam = team;
+            teamSelection.style.display = 'none';
+            gameContainer.style.display = 'block';
+            currentTeamDisplay.textContent = `Tour de: Team ${team.charAt(0).toUpperCase() + team.slice(1)} (X)`;
             gameActive = true;
-            gameInterval = setInterval(updateGame, 50);
             
-            // Générer des ennemis périodiquement
-            setInterval(createEnemy, 2000);
-        }
-        
-        function createPlatform(x, y, width, height) {
-            const platform = document.createElement('div');
-            platform.className = 'platform';
-            platform.style.left = x + 'px';
-            platform.style.bottom = y + 'px';
-            platform.style.width = width + 'px';
-            platform.style.height = height + 'px';
-            gameCanvas.appendChild(platform);
-            platforms.push(platform);
-        }
-        
-        function createEnemy() {
-            if (!gameActive) return;
-            
-            const enemy = document.createElement('div');
-            enemy.className = 'enemy';
-            enemy.style.bottom = '100px';
-            enemy.style.right = '0px';
-            gameCanvas.appendChild(enemy);
-            enemies.push({
-                element: enemy,
-                speed: 2 + Math.random() * 3,
-                health: 100
-            });
-        }
-        
-        function updateGame() {
-            if (!gameActive) return;
-            
-            // Déplacer les ennemis
-            enemies.forEach((enemy, index) => {
-                const currentRight = parseInt(enemy.element.style.right || '0');
-                enemy.element.style.right = (currentRight + enemy.speed) + 'px';
-                
-                // Vérifier les collisions avec Muzan
-                if (isColliding(muzan, enemy.element)) {
-                    takeDamage(10);
-                    createBloodEffect(enemy.element);
-                    enemy.element.remove();
-                    enemies.splice(index, 1);
-                }
-                
-                // Supprimer les ennemis hors écran
-                if (currentRight > gameCanvas.offsetWidth) {
-                    enemy.element.remove();
-                    enemies.splice(index, 1);
-                }
-            });
-            
-            // Mettre à jour l'affichage du score et de la vie
-            scoreDisplay.textContent = `Score: ${score}`;
-            healthDisplay.textContent = `Vie: ${health}%`;
-            
-            // Vérifier la condition de défaite
-            if (health <= 0) {
-                endGame();
+            // Si le joueur choisit Rengoku, l'IA (Muzan) joue en premier
+            if (team === 'rengoku') {
+                setTimeout(() => makeAIMove(), 500);
             }
         }
         
-        function isColliding(element1, element2) {
-            const rect1 = element1.getBoundingClientRect();
-            const rect2 = element2.getBoundingClientRect();
-            
-            return !(
-                rect1.right < rect2.left ||
-                rect1.left > rect2.right ||
-                rect1.bottom < rect2.top ||
-                rect1.top > rect2.bottom
-            );
-        }
-        
-        function takeDamage(amount) {
-            health -= amount;
-            if (health < 0) health = 0;
-            
-            // Effet visuel de dégât
-            muzan.style.opacity = '0.5';
-            setTimeout(() => {
-                if (muzan) muzan.style.opacity = '1';
-            }, 200);
-        }
-        
-        function createBloodEffect(element) {
-            const blood = document.createElement('div');
-            blood.className = 'blood-effect';
-            
-            const rect = element.getBoundingClientRect();
-            const canvasRect = gameCanvas.getBoundingClientRect();
-            
-            blood.style.left = (rect.left - canvasRect.left) + 'px';
-            blood.style.top = (rect.top - canvasRect.top) + 'px';
-            blood.style.width = '50px';
-            blood.style.height = '50px';
-            
-            gameCanvas.appendChild(blood);
-            
-            setTimeout(() => {
-                blood.remove();
-            }, 1000);
-        }
-        
-        function attack() {
-            if (!gameActive) return;
-            
-            // Animation d'attaque
-            muzan.style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                if (muzan) muzan.style.transform = 'scale(1)';
-            }, 200);
-            
-            // Vérifier si un ennemi est touché
-            enemies.forEach((enemy, index) => {
-                if (isColliding(muzan, enemy.element)) {
-                    enemy.health -= 50;
-                    score += 10;
-                    
-                    if (enemy.health <= 0) {
-                        createBloodEffect(enemy.element);
-                        enemy.element.remove();
-                        enemies.splice(index, 1);
-                        score += 50;
-                    }
+        // Gérer les clics sur les cellules
+        cells.forEach(cell => {
+            cell.addEventListener('click', () => {
+                const cellIndex = parseInt(cell.getAttribute('data-cell-index'));
+                
+                if (gameBoard[cellIndex] !== '' || !gameActive || currentPlayer === 'O') {
+                    return;
+                }
+                
+                makeMove(cellIndex);
+                
+                // Vérifier si la partie est terminée
+                if (gameActive && currentPlayer === 'O') {
+                    setTimeout(() => makeAIMove(), 500);
                 }
             });
-        }
+        });
         
-        function moveMuzan(direction) {
-            if (!gameActive) return;
+        function makeMove(cellIndex) {
+            gameBoard[cellIndex] = currentPlayer;
+            cells[cellIndex].textContent = currentPlayer;
+            cells[cellIndex].classList.add(currentPlayer.toLowerCase());
             
-            const currentLeft = parseInt(muzan.style.left || '0');
-            const newLeft = currentLeft + (direction * 10);
-            
-            // Limites de l'écran
-            if (newLeft >= 0 && newLeft <= gameCanvas.offsetWidth - 60) {
-                muzan.style.left = newLeft + 'px';
+            // Vérifier victoire ou match nul
+            if (checkWin()) {
+                endGame(false);
+            } else if (checkDraw()) {
+                endGame(true);
+            } else {
+                // Changer de joueur
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                updateCurrentPlayerDisplay();
             }
         }
         
-        function jump() {
-            if (!gameActive) return;
+        function makeAIMove() {
+            if (!gameActive || currentPlayer !== 'O') return;
             
-            muzan.style.transition = 'bottom 0.3s';
-            muzan.style.bottom = '200px';
+            // IA simple : choisir une case vide au hasard
+            const emptyCells = gameBoard
+                .map((value, index) => value === '' ? index : null)
+                .filter(index => index !== null);
             
-            setTimeout(() => {
-                if (muzan) {
-                    muzan.style.bottom = '100px';
-                }
-            }, 300);
+            if (emptyCells.length > 0) {
+                const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                makeMove(emptyCells[randomIndex]);
+            }
         }
         
-        function endGame() {
+        function checkWin() {
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        function checkDraw() {
+            return !gameBoard.includes('');
+        }
+        
+        function endGame(isDraw) {
             gameActive = false;
-            clearInterval(gameInterval);
+            gameResult.style.display = 'block';
             
-            finalScoreDisplay.textContent = score;
-            gameOverScreen.style.display = 'flex';
+            if (isDraw) {
+                gameResult.textContent = 'Match nul! Aucun vainqueur.';
+                gameResult.className = 'draw';
+            } else {
+                const winner = currentPlayer === 'X' ? playerTeam : (playerTeam === 'muzan' ? 'rengoku' : 'muzan');
+                gameResult.textContent = `Team ${winner.charAt(0).toUpperCase() + winner.slice(1)} a gagné!`;
+                gameResult.className = 'win';
+            }
         }
+        
+        function updateCurrentPlayerDisplay() {
+            const team = currentPlayer === 'X' ? playerTeam : (playerTeam === 'muzan' ? 'rengoku' : 'muzan');
+            currentTeamDisplay.textContent = `Tour de: Team ${team.charAt(0).toUpperCase() + team.slice(1)} (${currentPlayer})`;
+        }
+        
+        // Redémarrer le jeu
+        restartBtn.addEventListener('click', () => {
+            resetGame();
+            
+            // Si le joueur a choisi Rengoku, l'IA joue en premier
+            if (playerTeam === 'rengoku') {
+                setTimeout(() => makeAIMove(), 500);
+            }
+        });
+        
+        // Retour à la sélection d'équipe
+        homeBtn.addEventListener('click', () => {
+            resetGame();
+            gameContainer.style.display = 'none';
+            teamSelection.style.display = 'block';
+        });
         
         function resetGame() {
-            // Réinitialiser les variables
-            score = 0;
-            health = 100;
+            gameBoard = ['', '', '', '', '', '', '', '', ''];
+            gameActive = true;
+            currentPlayer = 'X';
             
-            // Supprimer tous les ennemis et plateformes
-            enemies.forEach(enemy => enemy.element.remove());
-            enemies = [];
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('x', 'o');
+            });
             
-            platforms.forEach(platform => platform.remove());
-            platforms = [];
-            
-            if (muzan) {
-                muzan.remove();
-                muzan = null;
-            }
-            
-            // Cacher l'écran de game over
-            gameOverScreen.style.display = 'none';
-            
-            // Relancer le jeu
-            initGame();
+            gameResult.style.display = 'none';
+            updateCurrentPlayerDisplay();
         }
-        
-        // Événements des boutons
-        startBtn.addEventListener('click', () => {
-            startScreen.style.display = 'none';
-            initGame();
-        });
-        
-        restartBtn.addEventListener('click', resetGame);
-        
-        leftBtn.addEventListener('click', () => moveMuzan(-1));
-        rightBtn.addEventListener('click', () => moveMuzan(1));
-        jumpBtn.addEventListener('click', jump);
-        attackBtn.addEventListener('click', attack);
-        
-        // Contrôles clavier
-        document.addEventListener('keydown', (e) => {
-            if (!gameActive) return;
-            
-            switch(e.key) {
-                case 'ArrowLeft':
-                    moveMuzan(-1);
-                    break;
-                case 'ArrowRight':
-                    moveMuzan(1);
-                    break;
-                case 'ArrowUp':
-                case ' ':
-                    jump();
-                    break;
-                case 'a':
-                case 'A':
-                    attack();
-                    break;
-            }
-        });
     </script>
 </body>
     </html>
