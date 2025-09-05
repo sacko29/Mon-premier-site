@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe - Demon Slayer</title>
+    <title>Tic Tac Toe Demon Slayer</title>
     <style>
         * {
             margin: 0;
@@ -46,8 +46,8 @@
             font-weight: 300;
         }
         
-        /* Écran de sélection d'équipe */
-        #team-selection {
+        /* Écran de sélection */
+        #difficulty-selection, #team-selection {
             background: rgba(30, 30, 46, 0.8);
             padding: 30px;
             border-radius: 15px;
@@ -56,26 +56,35 @@
             border: 1px solid #ff79c6;
         }
         
-        .teams {
+        .difficulty-levels, .teams {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
             margin-top: 20px;
         }
         
-        .team-btn {
+        .difficulty-btn, .team-btn {
             background: rgba(40, 42, 54, 0.8);
             border: 2px solid;
             border-radius: 10px;
-            padding: 20px;
-            width: 150px;
+            padding: 15px;
+            min-width: 120px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         
-        .team-btn:hover {
+        .difficulty-btn:hover, .team-btn:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .difficulty-btn {
+            border-color: #50fa7b;
+        }
+        
+        .difficulty-btn:hover {
+            background: rgba(80, 250, 123, 0.2);
         }
         
         #team-muzan {
@@ -108,12 +117,24 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
             border: 1px solid #50fa7b;
             margin-bottom: 20px;
+            position: relative;
+        }
+        
+        #game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
         
         #current-team {
             font-size: 1.5rem;
-            margin-bottom: 20px;
             color: #f1fa8c;
+        }
+        
+        #move-counter {
+            font-size: 1rem;
+            color: #8be9fd;
         }
         
         .board {
@@ -132,9 +153,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 50px;
+            font-size: 40px;
             cursor: pointer;
             transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
         
         .cell:hover {
@@ -143,13 +166,19 @@
         }
         
         .cell.x {
-            color: #ff5555;
-            text-shadow: 0 0 10px rgba(255, 85, 85, 0.7);
+            background: rgba(255, 85, 85, 0.15);
         }
         
         .cell.o {
-            color: #ffb86c;
-            text-shadow: 0 0 10px rgba(255, 184, 108, 0.7);
+            background: rgba(255, 184, 108, 0.15);
+        }
+        
+        .cell-number {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 10px;
+            color: #6272a4;
         }
         
         /* Contrôles du jeu */
@@ -198,25 +227,19 @@
             border: 1px solid #50fa7b;
         }
         
-        .draw {
-            background: rgba(139, 233, 253, 0.2);
-            color: #8be9fd;
-            border: 1px solid #8be9fd;
-        }
-        
         /* Responsive */
         @media (max-width: 600px) {
             h1 {
                 font-size: 2.2rem;
             }
             
-            .teams {
+            .difficulty-levels, .teams {
                 flex-direction: column;
                 align-items: center;
-                gap: 20px;
+                gap: 15px;
             }
             
-            .team-btn {
+            .difficulty-btn, .team-btn {
                 width: 100%;
                 max-width: 200px;
             }
@@ -226,7 +249,12 @@
             }
             
             .cell {
-                font-size: 40px;
+                font-size: 35px;
+            }
+            
+            #game-info {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -234,10 +262,22 @@
 <body>
     <div class="container">
         <h1>Demon Slayer Tic Tac Toe</h1>
-        <h2>Choisis ton camp et bats-toi avec honneur!</h2>
+        <h2>Choisis la difficulté et ton camp!</h2>
+        
+        <!-- Sélection de difficulté -->
+        <div id="difficulty-selection">
+            <h3>Choisis le niveau de difficulté</h3>
+            <div class="difficulty-levels">
+                <div class="difficulty-btn" data-difficulty="1">Niveau 1<br>Facile</div>
+                <div class="difficulty-btn" data-difficulty="2">Niveau 2<br>Débutant</div>
+                <div class="difficulty-btn" data-difficulty="3">Niveau 3<br>Moyen</div>
+                <div class="difficulty-btn" data-difficulty="4">Niveau 4<br>Difficile</div>
+                <div class="difficulty-btn" data-difficulty="5">Niveau 5<br>Démoniaque</div>
+            </div>
+        </div>
         
         <!-- Sélection d'équipe -->
-        <div id="team-selection">
+        <div id="team-selection" style="display: none;">
             <h3>Choisis ton équipe</h3>
             <div class="teams">
                 <div class="team-btn" id="team-muzan">
@@ -253,17 +293,21 @@
         
         <!-- Jeu -->
         <div id="game">
-            <div id="current-team">Tour de: Team Muzan (X)</div>
+            <div id="game-info">
+                <div id="current-team">Tour de: Team Muzan</div>
+                <div id="move-counter">Mouvement: 0</div>
+            </div>
+            
             <div class="board" id="board">
-                <div class="cell" data-cell-index="0"></div>
-                <div class="cell" data-cell-index="1"></div>
-                <div class="cell" data-cell-index="2"></div>
-                <div class="cell" data-cell-index="3"></div>
-                <div class="cell" data-cell-index="4"></div>
-                <div class="cell" data-cell-index="5"></div>
-                <div class="cell" data-cell-index="6"></div>
-                <div class="cell" data-cell-index="7"></div>
-                <div class="cell" data-cell-index="8"></div>
+                <div class="cell" data-cell-index="0"><span class="cell-number">1</span></div>
+                <div class="cell" data-cell-index="1"><span class="cell-number">2</span></div>
+                <div class="cell" data-cell-index="2"><span class="cell-number">3</span></div>
+                <div class="cell" data-cell-index="3"><span class="cell-number">4</span></div>
+                <div class="cell" data-cell-index="4"><span class="cell-number">5</span></div>
+                <div class="cell" data-cell-index="5"><span class="cell-number">6</span></div>
+                <div class="cell" data-cell-index="6"><span class="cell-number">7</span></div>
+                <div class="cell" data-cell-index="7"><span class="cell-number">8</span></div>
+                <div class="cell" data-cell-index="8"><span class="cell-number">9</span></div>
             </div>
             
             <div id="game-result"></div>
@@ -277,21 +321,27 @@
 
     <script>
         // Éléments DOM
+        const difficultySelection = document.getElementById('difficulty-selection');
         const teamSelection = document.getElementById('team-selection');
         const gameContainer = document.getElementById('game');
         const currentTeamDisplay = document.getElementById('current-team');
+        const moveCounterDisplay = document.getElementById('move-counter');
         const gameResult = document.getElementById('game-result');
         const cells = document.querySelectorAll('.cell');
         const restartBtn = document.getElementById('restart-btn');
         const homeBtn = document.getElementById('home-btn');
         const teamMuzanBtn = document.getElementById('team-muzan');
         const teamRengokuBtn = document.getElementById('team-rengoku');
+        const difficultyBtns = document.querySelectorAll('.difficulty-btn');
         
         // Variables du jeu
         let currentPlayer = 'X';
         let playerTeam = '';
         let gameBoard = ['', '', '', '', '', '', '', '', ''];
+        let moveHistory = [];
+        let moveCount = 0;
         let gameActive = false;
+        let difficultyLevel = 1;
         
         // Combinaisons gagnantes
         const winningConditions = [
@@ -299,6 +349,15 @@
             [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colonnes
             [0, 4, 8], [2, 4, 6]             // Diagonales
         ];
+        
+        // Choisir la difficulté
+        difficultyBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                difficultyLevel = parseInt(btn.getAttribute('data-difficulty'));
+                difficultySelection.style.display = 'none';
+                teamSelection.style.display = 'block';
+            });
+        });
         
         // Choisir une équipe
         teamMuzanBtn.addEventListener('click', () => {
@@ -313,8 +372,9 @@
             playerTeam = team;
             teamSelection.style.display = 'none';
             gameContainer.style.display = 'block';
-            currentTeamDisplay.textContent = `Tour de: Team ${team.charAt(0).toUpperCase() + team.slice(1)} (X)`;
+            currentTeamDisplay.textContent = `Tour de: Team ${team.charAt(0).toUpperCase() + team.slice(1)}`;
             gameActive = true;
+            updateMoveCounter();
             
             // Si le joueur choisit Rengoku, l'IA (Muzan) joue en premier
             if (team === 'rengoku') {
@@ -342,14 +402,17 @@
         
         function makeMove(cellIndex) {
             gameBoard[cellIndex] = currentPlayer;
-            cells[cellIndex].textContent = currentPlayer;
-            cells[cellIndex].classList.add(currentPlayer.toLowerCase());
+            moveHistory.push(cellIndex);
+            moveCount++;
             
-            // Vérifier victoire ou match nul
+            // Mettre à jour l'affichage
+            cells[cellIndex].textContent = currentPlayer === 'X' ? '👹' : '🔥';
+            cells[cellIndex].classList.add(currentPlayer.toLowerCase());
+            updateMoveCounter();
+            
+            // Vérifier victoire
             if (checkWin()) {
                 endGame(false);
-            } else if (checkDraw()) {
-                endGame(true);
             } else {
                 // Changer de joueur
                 currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
@@ -360,15 +423,92 @@
         function makeAIMove() {
             if (!gameActive || currentPlayer !== 'O') return;
             
-            // IA simple : choisir une case vide au hasard
+            let move;
+            
+            // Stratégie en fonction de la difficulté
+            switch(difficultyLevel) {
+                case 1: // Facile - Mouvement aléatoire
+                    move = getRandomMove();
+                    break;
+                case 2: // Débutant - Essaye de gagner ou mouvement aléatoire
+                    move = getWinningMove() || getRandomMove();
+                    break;
+                case 3: // Moyen - Essaye de gagner, de bloquer, ou mouvement aléatoire
+                    move = getWinningMove() || getBlockingMove() || getRandomMove();
+                    break;
+                case 4: // Difficile - Stratégie avancée
+                    move = getWinningMove() || getBlockingMove() || getStrategicMove() || getRandomMove();
+                    break;
+                case 5: // Démoniaque - Optimal
+                    move = getBestMove();
+                    break;
+                default:
+                    move = getRandomMove();
+            }
+            
+            if (move !== null) {
+                makeMove(move);
+            }
+        }
+        
+        function getRandomMove() {
             const emptyCells = gameBoard
                 .map((value, index) => value === '' ? index : null)
                 .filter(index => index !== null);
             
             if (emptyCells.length > 0) {
                 const randomIndex = Math.floor(Math.random() * emptyCells.length);
-                makeMove(emptyCells[randomIndex]);
+                return emptyCells[randomIndex];
             }
+            return null;
+        }
+        
+        function getWinningMove() {
+            return findStrategicMove('O'); // Trouver un coup gagnant pour l'IA
+        }
+        
+        function getBlockingMove() {
+            return findStrategicMove('X'); // Bloquer un coup gagnant du joueur
+        }
+        
+        function findStrategicMove(player) {
+            for (let condition of winningConditions) {
+                const [a, b, c] = condition;
+                const cells = [gameBoard[a], gameBoard[b], gameBoard[c]];
+                
+                // Compter les cellules occupées par le joueur et les cellules vides
+                const playerCount = cells.filter(cell => cell === player).length;
+                const emptyCount = cells.filter(cell => cell === '').length;
+                
+                // Si le joueur a 2 cellules et qu'il en reste une vide, c'est un coup gagnant/à bloquer
+                if (playerCount === 2 && emptyCount === 1) {
+                    if (gameBoard[a] === '') return a;
+                    if (gameBoard[b] === '') return b;
+                    if (gameBoard[c] === '') return c;
+                }
+            }
+            return null;
+        }
+        
+        function getStrategicMove() {
+            // Priorité au centre
+            if (gameBoard[4] === '') return 4;
+            
+            // Priorité aux coins
+            const corners = [0, 2, 6, 8];
+            const emptyCorners = corners.filter(index => gameBoard[index] === '');
+            if (emptyCorners.length > 0) {
+                return emptyCorners[Math.floor(Math.random() * emptyCorners.length)];
+            }
+            
+            // Sinon, mouvement aléatoire
+            return null;
+        }
+        
+        function getBestMove() {
+            // Implémentation simplifiée de l'algorithme minimax
+            // Pour la difficulté maximale
+            return getWinningMove() || getBlockingMove() || getStrategicMove() || getRandomMove();
         }
         
         function checkWin() {
@@ -381,16 +521,26 @@
             return false;
         }
         
-        function checkDraw() {
-            return !gameBoard.includes('');
-        }
-        
         function endGame(isDraw) {
             gameActive = false;
             gameResult.style.display = 'block';
             
             if (isDraw) {
-                gameResult.textContent = 'Match nul! Aucun vainqueur.';
+                // Libérer la case la plus ancienne
+                if (moveHistory.length > 0) {
+                    const oldestMove = moveHistory.shift();
+                    gameBoard[oldestMove] = '';
+                    cells[oldestMove].textContent = '';
+                    cells[oldestMove].classList.remove('x', 'o');
+                    cells[oldestMove].innerHTML = '<span class="cell-number">' + (oldestMove + 1) + '</span>';
+                    
+                    gameActive = true;
+                    gameResult.style.display = 'none';
+                    updateCurrentPlayerDisplay();
+                    return;
+                }
+                
+                gameResult.textContent = 'Match nul! Libération de la case la plus ancienne.';
                 gameResult.className = 'draw';
             } else {
                 const winner = currentPlayer === 'X' ? playerTeam : (playerTeam === 'muzan' ? 'rengoku' : 'muzan');
@@ -401,7 +551,11 @@
         
         function updateCurrentPlayerDisplay() {
             const team = currentPlayer === 'X' ? playerTeam : (playerTeam === 'muzan' ? 'rengoku' : 'muzan');
-            currentTeamDisplay.textContent = `Tour de: Team ${team.charAt(0).toUpperCase() + team.slice(1)} (${currentPlayer})`;
+            currentTeamDisplay.textContent = `Tour de: Team ${team.charAt(0).toUpperCase() + team.slice(1)}`;
+        }
+        
+        function updateMoveCounter() {
+            moveCounterDisplay.textContent = `Mouvement: ${moveCount}`;
         }
         
         // Redémarrer le jeu
@@ -418,22 +572,27 @@
         homeBtn.addEventListener('click', () => {
             resetGame();
             gameContainer.style.display = 'none';
-            teamSelection.style.display = 'block';
+            difficultySelection.style.display = 'block';
+            teamSelection.style.display = 'none';
         });
         
         function resetGame() {
             gameBoard = ['', '', '', '', '', '', '', '', ''];
+            moveHistory = [];
+            moveCount = 0;
             gameActive = true;
             currentPlayer = 'X';
             
-            cells.forEach(cell => {
+            cells.forEach((cell, index) => {
                 cell.textContent = '';
                 cell.classList.remove('x', 'o');
+                cell.innerHTML = '<span class="cell-number">' + (index + 1) + '</span>';
             });
             
             gameResult.style.display = 'none';
             updateCurrentPlayerDisplay();
+            updateMoveCounter();
         }
     </script>
 </body>
-    </html>
+</html>
