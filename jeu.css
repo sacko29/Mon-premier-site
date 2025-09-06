@@ -110,3 +110,18 @@ button:hover {
         margin: 5px;
     }
 }
+.cell.muzan {
+    background: rgba(255, 85, 85, 0.15);
+    background-image: url('https://i.ibb.co/vvmzRHfh/20250904-163530.jpg');  // ← REMPLACE ICI
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.cell.rengoku {
+    background: rgba(255, 184, 108, 0.15);
+    background-image: url('https://i.ibb.co/k2RYnRNL/20250904-163538.jpg');  // ← REMPLACE ICI
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    }
