@@ -9,11 +9,11 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
         }
         
         body {
-            background: #1a1a2e;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: white;
             min-height: 100vh;
             display: flex;
@@ -21,7 +21,6 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: linear-gradient(to bottom, #0c1445, #1a1a2e);
         }
         
         .container {
@@ -31,13 +30,12 @@
         }
         
         h1 {
-            color: #ff9e1b;
             font-size: 3rem;
             margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(255, 158, 27, 0.7);
-            background: linear-gradient(to right, #ff9e1b, #ff3434);
+            background: linear-gradient(45deg, #ff6b6b, #ff9e1b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 158, 27, 0.5);
         }
         
         h2 {
@@ -46,21 +44,21 @@
             font-weight: 300;
         }
         
-        /* Écran de sélection */
-        #difficulty-selection, #team-selection {
-            background: rgba(30, 30, 46, 0.8);
+        /* Écrans de sélection */
+        .selection-screen {
+            background: rgba(30, 30, 46, 0.9);
             padding: 30px;
             border-radius: 15px;
             margin-bottom: 30px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            border: 1px solid #ff79c6;
+            border: 2px solid #ff79c6;
         }
         
         .difficulty-levels, .teams {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
             margin-top: 20px;
         }
         
@@ -68,10 +66,11 @@
             background: rgba(40, 42, 54, 0.8);
             border: 2px solid;
             border-radius: 10px;
-            padding: 15px;
+            padding: 15px 20px;
             min-width: 120px;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: white;
         }
         
         .difficulty-btn:hover, .team-btn:hover {
@@ -87,8 +86,11 @@
             background: rgba(80, 250, 123, 0.2);
         }
         
-        #team-muzan {
+        .team-btn {
             border-color: #ff5555;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         #team-muzan:hover {
@@ -111,13 +113,12 @@
         /* Plateau de jeu */
         #game {
             display: none;
-            background: rgba(30, 30, 46, 0.8);
+            background: rgba(30, 30, 46, 0.9);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            border: 1px solid #50fa7b;
+            border: 2px solid #50fa7b;
             margin-bottom: 20px;
-            position: relative;
         }
         
         #game-info {
@@ -125,6 +126,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding: 0 10px;
         }
         
         #current-team {
@@ -135,6 +137,9 @@
         #move-counter {
             font-size: 1rem;
             color: #8be9fd;
+            background: rgba(139, 233, 253, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
         }
         
         .board {
@@ -153,7 +158,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 0;
             cursor: pointer;
             transition: all 0.2s ease;
             position: relative;
@@ -165,12 +170,20 @@
             transform: scale(1.05);
         }
         
-        .cell.x {
+        .cell.muzan {
             background: rgba(255, 85, 85, 0.15);
+            background-image: url('https://i.ibb.co/0jQ2Y3L/muzan.png');
+            background-size: 70%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
         
-        .cell.o {
+        .cell.rengoku {
             background: rgba(255, 184, 108, 0.15);
+            background-image: url('https://i.ibb.co/6nS7Y2V/rengoku.png');
+            background-size: 70%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
         
         .cell-number {
@@ -227,6 +240,12 @@
             border: 1px solid #50fa7b;
         }
         
+        .draw {
+            background: rgba(139, 233, 253, 0.2);
+            color: #8be9fd;
+            border: 1px solid #8be9fd;
+        }
+        
         /* Responsive */
         @media (max-width: 600px) {
             h1 {
@@ -236,7 +255,6 @@
             .difficulty-levels, .teams {
                 flex-direction: column;
                 align-items: center;
-                gap: 15px;
             }
             
             .difficulty-btn, .team-btn {
@@ -246,10 +264,6 @@
             
             .board {
                 max-width: 300px;
-            }
-            
-            .cell {
-                font-size: 35px;
             }
             
             #game-info {
@@ -265,7 +279,7 @@
         <h2>Choisis la difficulté et ton camp!</h2>
         
         <!-- Sélection de difficulté -->
-        <div id="difficulty-selection">
+        <div id="difficulty-selection" class="selection-screen">
             <h3>Choisis le niveau de difficulté</h3>
             <div class="difficulty-levels">
                 <div class="difficulty-btn" data-difficulty="1">Niveau 1<br>Facile</div>
@@ -277,7 +291,7 @@
         </div>
         
         <!-- Sélection d'équipe -->
-        <div id="team-selection" style="display: none;">
+        <div id="team-selection" class="selection-screen" style="display: none;">
             <h3>Choisis ton équipe</h3>
             <div class="teams">
                 <div class="team-btn" id="team-muzan">
@@ -335,7 +349,7 @@
         const difficultyBtns = document.querySelectorAll('.difficulty-btn');
         
         // Variables du jeu
-        let currentPlayer = 'X';
+        let currentPlayer = 'muzan';
         let playerTeam = '';
         let gameBoard = ['', '', '', '', '', '', '', '', ''];
         let moveHistory = [];
@@ -387,41 +401,54 @@
             cell.addEventListener('click', () => {
                 const cellIndex = parseInt(cell.getAttribute('data-cell-index'));
                 
-                if (gameBoard[cellIndex] !== '' || !gameActive || currentPlayer === 'O') {
+                if (gameBoard[cellIndex] !== '' || !gameActive || currentPlayer !== playerTeam) {
                     return;
                 }
                 
                 makeMove(cellIndex);
                 
                 // Vérifier si la partie est terminée
-                if (gameActive && currentPlayer === 'O') {
+                if (gameActive && currentPlayer !== playerTeam) {
                     setTimeout(() => makeAIMove(), 500);
                 }
             });
         });
         
         function makeMove(cellIndex) {
+            // Si le plateau est plein (9 mouvements), libère la case la plus ancienne
+            if (moveCount >= 9) {
+                const oldestMove = moveHistory.shift(); // Prend le premier mouvement
+                gameBoard[oldestMove] = ''; // Libère la case
+                
+                // Réinitialise l'affichage de la case la plus ancienne
+                cells[oldestMove].classList.remove('muzan', 'rengoku');
+                cells[oldestMove].innerHTML = '<span class="cell-number">' + (oldestMove + 1) + '</span>';
+            }
+            
             gameBoard[cellIndex] = currentPlayer;
             moveHistory.push(cellIndex);
             moveCount++;
             
-            // Mettre à jour l'affichage
-            cells[cellIndex].textContent = currentPlayer === 'X' ? '👹' : '🔥';
-            cells[cellIndex].classList.add(currentPlayer.toLowerCase());
+            // Met à jour l'affichage avec les classes CSS pour les images
+            cells[cellIndex].innerHTML = ''; // Enlève le numéro
+            cells[cellIndex].classList.add(currentPlayer);
             updateMoveCounter();
             
-            // Vérifier victoire
+            // Vérifie la victoire
             if (checkWin()) {
                 endGame(false);
+            } else if (moveCount >= 9 && !checkWin()) {
+                // Match nul après 9 mouvements
+                endGame(true);
             } else {
-                // Changer de joueur
-                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                // Change de joueur
+                currentPlayer = currentPlayer === 'muzan' ? 'rengoku' : 'muzan';
                 updateCurrentPlayerDisplay();
             }
         }
         
         function makeAIMove() {
-            if (!gameActive || currentPlayer !== 'O') return;
+            if (!gameActive || currentPlayer === playerTeam) return;
             
             let move;
             
@@ -464,11 +491,11 @@
         }
         
         function getWinningMove() {
-            return findStrategicMove('O'); // Trouver un coup gagnant pour l'IA
+            return findStrategicMove('rengoku'); // Trouver un coup gagnant pour l'IA
         }
         
         function getBlockingMove() {
-            return findStrategicMove('X'); // Bloquer un coup gagnant du joueur
+            return findStrategicMove('muzan'); // Bloquer un coup gagnant du joueur
         }
         
         function findStrategicMove(player) {
@@ -507,7 +534,6 @@
         
         function getBestMove() {
             // Implémentation simplifiée de l'algorithme minimax
-            // Pour la difficulté maximale
             return getWinningMove() || getBlockingMove() || getStrategicMove() || getRandomMove();
         }
         
@@ -526,32 +552,23 @@
             gameResult.style.display = 'block';
             
             if (isDraw) {
-                // Libérer la case la plus ancienne
-                if (moveHistory.length > 0) {
-                    const oldestMove = moveHistory.shift();
-                    gameBoard[oldestMove] = '';
-                    cells[oldestMove].textContent = '';
-                    cells[oldestMove].classList.remove('x', 'o');
-                    cells[oldestMove].innerHTML = '<span class="cell-number">' + (oldestMove + 1) + '</span>';
-                    
+                gameResult.textContent = 'Match nul! La partie continue sans limite!';
+                gameResult.className = 'draw';
+                
+                // La partie peut continuer indéfiniment
+                setTimeout(() => {
                     gameActive = true;
                     gameResult.style.display = 'none';
-                    updateCurrentPlayerDisplay();
-                    return;
-                }
-                
-                gameResult.textContent = 'Match nul! Libération de la case la plus ancienne.';
-                gameResult.className = 'draw';
+                }, 2000);
             } else {
-                const winner = currentPlayer === 'X' ? playerTeam : (playerTeam === 'muzan' ? 'rengoku' : 'muzan');
+                const winner = currentPlayer;
                 gameResult.textContent = `Team ${winner.charAt(0).toUpperCase() + winner.slice(1)} a gagné!`;
                 gameResult.className = 'win';
             }
         }
         
         function updateCurrentPlayerDisplay() {
-            const team = currentPlayer === 'X' ? playerTeam : (playerTeam === 'muzan' ? 'rengoku' : 'muzan');
-            currentTeamDisplay.textContent = `Tour de: Team ${team.charAt(0).toUpperCase() + team.slice(1)}`;
+            currentTeamDisplay.textContent = `Tour de: Team ${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`;
         }
         
         function updateMoveCounter() {
@@ -581,11 +598,10 @@
             moveHistory = [];
             moveCount = 0;
             gameActive = true;
-            currentPlayer = 'X';
+            currentPlayer = playerTeam;
             
             cells.forEach((cell, index) => {
-                cell.textContent = '';
-                cell.classList.remove('x', 'o');
+                cell.classList.remove('muzan', 'rengoku');
                 cell.innerHTML = '<span class="cell-number">' + (index + 1) + '</span>';
             });
             
@@ -595,4 +611,4 @@
         }
     </script>
 </body>
-</html>
+                    </html>
